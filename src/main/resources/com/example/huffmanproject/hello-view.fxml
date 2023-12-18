@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane style="-fx-background-color: #d8bfd8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.huffmanproject.HuffmanTableController">
+    <ScrollPane layoutX="-6.0" prefHeight="668.0" prefWidth="400.0" style="-fx-background-color: #8b008b; -fx-background-radius: 10; -fx-border-width: 30;">
+        <content>
+            <GridPane fx:id="dynamicGridPane" alignment="CENTER" style="-fx-background-color: rgba(162,54,208,0.78);">
+
+            </GridPane>
+        </content>
+    </ScrollPane>
+   <VBox fx:id="vbox" layoutX="419.0" prefHeight="635.0" prefWidth="350.0">
+      <children>
+         <Button fx:id="file_btn" mnemonicParsing="false" onAction="#openFileChooser" prefHeight="48.0" prefWidth="214.0" style="-fx-background-color: #ee82ee; -fx-background-radius: 10px;" text="File" textAlignment="CENTER" textFill="DARKSLATEGRAY">
+            <font>
+               <Font size="18.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin>
+            <effect>
+               <InnerShadow />
+            </effect></Button>
+         <Button fx:id="compress_btn" mnemonicParsing="false" onAction="#compressFileChooser" prefHeight="54.0" prefWidth="215.0" style="-fx-background-color: #da70d6; -fx-background-radius: 10px;" text="compress" textAlignment="CENTER" textFill="DARKSLATEGRAY">
+            <font>
+               <Font name="Droid Sans Mono Dotted" size="18.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin>
+            <effect>
+               <InnerShadow />
+            </effect></Button>
+         <Button fx:id="decompress_btn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#decompressFileChooser" prefHeight="56.0" prefWidth="214.0" style="-fx-background-color: #ff00ff; -fx-background-radius: 10;" text="decompress" textAlignment="CENTER" textFill="#2e4d4d">
+            <font>
+               <Font name="Droid Sans Mono" size="18.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="10.0" top="20.0" />
+            </VBox.margin>
+            <effect>
+               <InnerShadow />
+            </effect></Button>
+         <Label fx:id="resultLabel" prefHeight="106.0" prefWidth="350.0" style="-fx-background-color: #baa4e6;">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="100.0" />
+            </VBox.margin>
+            <effect>
+               <InnerShadow />
+            </effect></Label>
+      </children>
+   </VBox>
+</AnchorPane>
