@@ -38,13 +38,13 @@ public class DecompressController {
     public void initialize() throws IOException {
         System.out.println(filePath+" de ");
 
-      if (filePath.contains("png")||filePath.contains("jpg")){
+     // if (filePath.contains("png")||filePath.contains("jpg")){
           decompressImage();
-       }
-       else{
+     //  }
+      // else{
 
-          DecompressText();
-       }
+     //     DecompressText();
+     //  }
 
     }
 
@@ -200,7 +200,9 @@ public class DecompressController {
 
         // Save the image to a PNG file
             String filePaths[]=filePath.split("\\.");
-            writeToFile(filePaths[0]+"-decompressed.png",stringToBinaryString(actualString.toString()));
+            String []extension=filePaths[0].split("-");
+
+            writeToFile(filePaths[0]+"-decompressed"+"."+extension[1],stringToBinaryString(actualString.toString()));
 
 
 

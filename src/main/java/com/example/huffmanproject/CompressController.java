@@ -108,13 +108,13 @@ public class CompressController {
 
         String[] fileSpec = filePath.split("\\.");
 
-        if (fileSpec[1].equals("jpg") || fileSpec[1].equals("png")) {
+        //if (fileSpec[1].equals("jpg") || fileSpec[1].equals("png")) {
             processImageCompression();
             System.out.println(fileSpec[1]+" File written Successfully");
-        } else {
-            processTextCompression(file);
-            System.out.println(fileSpec[1]+"File written Successfully");
-        }
+       // } else {
+      //      processTextCompression(file);
+       //     System.out.println(fileSpec[1]+"File written Successfully");
+       // }
 
 
 
@@ -137,7 +137,8 @@ public class CompressController {
 
 
         String pathOfFiles[]=filePath.split("\\.");
-        convertAndWriteToFile(header,encoded.toString(), pathOfFiles[0]+"-png"+".huff");
+        String extension =pathOfFiles[1];
+        convertAndWriteToFile(header,encoded.toString(), pathOfFiles[0]+"-"+extension+".huff");
        // double ratio=(encoded.length()/(sb.length()/8))*100;
         //deliveredNotification=("Orginal file size :"+encoded.length()+"\n"+"after compression :"+sb.length()/8+"\n"+"compression rate :"+ratio+"%");
 
