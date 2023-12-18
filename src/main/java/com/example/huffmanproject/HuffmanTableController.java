@@ -16,7 +16,6 @@ import java.io.RandomAccessFile;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 //THIS CONTROLLER CLASS IS INITIALIZED BY THE MAIN FXML FILE .
@@ -143,7 +142,7 @@ public class HuffmanTableController implements Initializable {
             processFile(filePath);
             CompressController compress = new CompressController();
             compress.setCodesTable(codesTable);
-            //System.out.println(filePath);
+            System.out.println(filePath);
             compress.setFilePath(filePath);
             compress.setTreeTraversal(heap.peek().postOrderTraversal());
 
@@ -201,19 +200,6 @@ public class HuffmanTableController implements Initializable {
             }
             inChannel.close();
             file.close();
-            //sort counter array , then remove all zero freq bytes
-            Arrays.sort(freqs, 0, freqs.length);
-            int index = 255;
-            for (int i = 0; i < freqs.length; i++)
-                if (freqs[i] != 0) {
-                    index = i; // index of first byte have freq > 0
-                    break;
-
-
-                }
-            //remove all zeros
-            freqs = Arrays.copyOfRange(freqs, index, freqs.length);
-
 
             int sum = 0;
             // build in heap but with customized Node .
@@ -239,11 +225,14 @@ public class HuffmanTableController implements Initializable {
                 newNode.setFreqs(left.getFreqs() + right.getFreqs());
                 newNode.setLeft(left);
                 newNode.setRight(right);
-
+                // System.out.println(newNode.getFreqs());
+                // System.out.println("left :"+newNode.getLeft().getValue()+" right :"+newNode.getRight().getValue());
 
                 heap.add(newNode);
             }
-
+            // heap.printHeap();
+            //heap.printHeap();
+            //System.out.println(heap.getSize());
             //the heap is ready !!
 
 
@@ -251,7 +240,7 @@ public class HuffmanTableController implements Initializable {
                 String path = heap.peek().getPaths();
 
                 System.out.println(path);
-               // System.out.println(heap.peek().postOrderTraversal());
+                System.out.println(heap.peek().postOrderTraversal());
 
                 String[] paths = path.split(" newRecord "); //THE SPLITTER IS DEFINED IN NODE CLASS.
                 //System.out.println("paths are " + paths.length);

@@ -192,7 +192,7 @@ public class CompressController {
     public static void convertAndWriteToFile(Header header ,String binaryString, String filePath) throws IOException {
         // Ensure that the length of the binary string is a multiple of 8
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream("output.huffman");
+        try (FileOutputStream fileOutputStream = new FileOutputStream(filePath);
              DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream)) {
             // Write integers as 4-byte values
             dataOutputStream.writeInt(header.getSizeofHeader());
