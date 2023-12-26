@@ -28,6 +28,12 @@ public class HuffmanTableController implements Initializable {
     private static MyPriorityQueue heap;
     private static int[] freqs;
     private static  String filePath;
+   static int OriginalSize;
+   static int afterCompSize;
+
+
+
+
 
     @FXML
     GridPane dynamicGridPane;
@@ -40,6 +46,13 @@ public class HuffmanTableController implements Initializable {
     @FXML
     Button decompress_btn;
     @FXML Label resultLabel;
+    @FXML
+      Label labelOne;
+    @FXML
+    Label labelTwo;
+    @FXML
+    Label labelThree;
+
 
 
 
@@ -126,10 +139,7 @@ public class HuffmanTableController implements Initializable {
 
 
     }
-    @FXML
-    private void handleFileButtonClick(ActionEvent event) {
-        // Your code here
-    }
+
 
     @FXML
     private void compressFileChooser() throws IOException {
@@ -150,6 +160,14 @@ public class HuffmanTableController implements Initializable {
                 String[] pathOfFiles = filePath.split("\\.");
                 compress.initialize();
                 resultLabel.setText("compressed to \n" + pathOfFiles[0] + ".huff." + pathOfFiles[1]);
+                //if (OriginalSize!=0){
+                    labelOne.setText("Size Before Compression : "+OriginalSize+" Byte");
+                //}
+               // if (afterCompSize!=0){
+                    labelTwo.setText("Size After Compression : "+afterCompSize +" Byte");
+                    double result=(1-((double) afterCompSize /OriginalSize))*100;
+                    labelThree.setText("Compression%: "+result);
+              //  }
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -161,6 +179,9 @@ public class HuffmanTableController implements Initializable {
     @FXML
     private void openFileChooser() {
         resultLabel.setText("");
+        labelOne.setText("");
+        labelTwo.setText("");
+        labelThree.setText("");
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");

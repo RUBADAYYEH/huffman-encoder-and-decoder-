@@ -83,13 +83,7 @@ public class MyPriorityQueue {
         heap[j] = temp;
     }
 
-    public void printHeap() {
-        for (int i = 0; i < size; i++) {
-            System.out.print(heap[i].getFreqs()+ " ");
-        }
-        System.out.println();
-    }
-    public boolean isEmpty() {
+       public boolean isEmpty() {
         return size == 0;
     }
 

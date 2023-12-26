@@ -1,33 +1,18 @@
 package com.example.huffmanproject;
 
 public class Header {
-    private int sizeofHeader;
-    private int width;
-    private int height;
+    private int sizeofHeader; //THOSE INT ARE TREATED IN 4 BYTE REPRESENTATION.
+    private int sizeOfOriginalFile;
 
 
     private StringBuilder treeRepresentation;
-    private int sizeOfOriginalFile;
+
 
     public Header() {
 
     }
 
-    public int getWidth() {
-        return width;
-    }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
 
     public int getSizeofHeader() {
         return sizeofHeader;
@@ -53,8 +38,5 @@ public class Header {
         this.sizeOfOriginalFile = sizeOfOriginalFile;
     }
 
-    public int encodeHeader(){
-        sizeofHeader=treeRepresentation.length();
-        return (sizeofHeader);
-    }
+
 }

@@ -3,33 +3,19 @@ package com.example.huffmanproject;
 import javafx.scene.control.Label;
 
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.*;
-import java.awt.color.ColorSpace;
-import java.awt.image.*;
+
 import java.io.*;
-import java.math.BigInteger;
+
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Scanner;
+
 import java.util.Stack;
 
 public class DecompressController {
-    String[][] codesTable;
+
     private static String filePath;
-    static BufferedOutputStream bufferedSteam;
-    BufferedInputStream inputFile;
 
-
-    public String getFilePath() {
-        return filePath;
-    }
 
     public  void setFilePath(String filePath) {
         this.filePath = filePath;
@@ -213,25 +199,58 @@ public class DecompressController {
 
 
     }
-    private static void writeToFile(String outputFile,String binaryString) throws IOException {
 
-        FileOutputStream out = null;
+        private static void writeToFile(String outputFile, String binaryString) throws IOException {
+            FileOutputStream out = null;
 
-        try {
-            out = new FileOutputStream(outputFile );
+            try {
+                out = new FileOutputStream(outputFile);
+                //DataOutputStream dataOutputStream = new DataOutputStream(out);
 
-            // Convert the binary string to bytes and write to the output stream
-            byte[] byteArray = binaryStringToByteArray(binaryString);
-            out.write(byteArray);
-        } finally {
-            if (out != null) {
-                out.close();
+                // Ensure that the length of the binary string is a multiple of 8
+                int remainder = binaryString.length() % 8;
+                if (remainder != 0) {
+                    // Append zeros to make the length a multiple of 8
+                    int zerosToAdd = 8 - remainder;
+                    binaryString = binaryString + "0".repeat(zerosToAdd);
+                }
+
+                // Convert binary string to bytes and write to the output stream using an 8-byte buffer
+
+                int bufferIndex = 0;
+
+                StringBuilder bufferedString=new StringBuilder();
+
+                for (int i = 0; i < binaryString.length(); i += 8) {
+                    bufferedString.append(binaryString.substring(i, i + 8));
+                    bufferIndex++;
+
+
+                    // If the buffer is full, write it to the stream and reset the index
+                    if (bufferIndex == 8) {
+                        byte[] byteArray = binaryStringToByteArray((bufferedString.toString()));
+                        out.write(byteArray);
+                        bufferedString= new StringBuilder();
+                        bufferIndex = 0;
+                    }
+                }
+
+                // Write any remaining bytes in the buffer to the stream
+                if (bufferIndex > 0) {
+                    byte[] byteArray = binaryStringToByteArray((bufferedString.toString()));
+                    out.write(byteArray);
+                }
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+                System.out.println("Read and Write complete to " + outputFile);
             }
-            System.out.println("Read and Write complete to "+outputFile);
         }
 
 
-    }
+
+
 
 
     public static byte[] binaryStringToByteArray(String binaryString) {

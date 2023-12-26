@@ -27,7 +27,7 @@ public class CompressController {
     private String[][] codesTable;
     private static String filePath;
     private static StringBuilder encoded;
-    private Header header;
+    private static Header header;
     private String deliveredNotification;
 
     public String getDeliveredNotification() {
@@ -139,6 +139,8 @@ public class CompressController {
         String pathOfFiles[]=filePath.split("\\.");
         String extension =pathOfFiles[1];
         convertAndWriteToFile(header,encoded.toString(), pathOfFiles[0]+"-"+extension+".huff");
+        HuffmanTableController.OriginalSize=header.getSizeOfOriginalFile();
+        HuffmanTableController.afterCompSize=encoded.length()/8;
        // double ratio=(encoded.length()/(sb.length()/8))*100;
         //deliveredNotification=("Orginal file size :"+encoded.length()+"\n"+"after compression :"+sb.length()/8+"\n"+"compression rate :"+ratio+"%");
 
@@ -148,28 +150,7 @@ public class CompressController {
 
 
 
-    private void processTextCompression(RandomAccessFile file) throws IOException {
 
-        header = new Header();
-        header.setSizeOfOriginalFile(fileSize);
-        System.out.println("file size"+fileSize);
-        header.setTreeRepresentation(treeTraversal);
-        // System.out.println(" Header is : "+treeTraversal);
-        header.setSizeofHeader(header.getTreeRepresentation().length());
-
-        StringBuilder sb = new StringBuilder(intToBinaryString(header.getSizeofHeader()));
-        sb.append(intToBinaryString(header.getSizeOfOriginalFile())).append(stringToBinaryString(header.getTreeRepresentation().toString())).append(encoded.toString());
-        System.out.println("length after compression :"+encoded.length()/8);
-        String pathOfFiles[]=filePath.split("\\.");
-        //convertAndWriteToFile(sb.toString(), pathOfFiles[0]+"-txt"+".huff");
-        double ratio=(encoded.length()/(sb.length()/8))*100;
-       deliveredNotification=("Orginal file size :"+encoded.length()+"\n"+"after compression :"+sb.length()/8+"\n"+"compression rate :"+ratio+"%");
-
-
-
-
-
-    }
 
     public String searchForCode(int byteRead) {
 
@@ -206,6 +187,7 @@ public class CompressController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
     private static void writeBinaryStringToBytes(DataOutputStream dataOutputStream, String binaryString) throws IOException {
         // Ensure that the length of the binary string is a multiple of 8
@@ -215,12 +197,27 @@ public class CompressController {
             int zerosToAdd = 8 - remainder;
             binaryString = binaryString + "0".repeat(zerosToAdd);
         }
+        int [] buffer =new int[8];
+        int track=0;
 
         // Convert binary string to bytes and write to the stream
         for (int i = 0; i < binaryString.length(); i += 8) {
             String byteString = binaryString.substring(i, i + 8);
             int byteValue = Integer.parseInt(byteString, 2) ;
-            dataOutputStream.write(byteValue);
+            buffer[track++]=byteValue;
+            if (track==8){
+                for (int t=0;t<8;t++){
+                    dataOutputStream.write(buffer[t]);
+                }
+                track=0;
+
+            }
+            //dataOutputStream.write(byteValue);
+        }
+        if (track!=0){
+            for (int i=0;i<track;i++){
+                dataOutputStream.write(buffer[i]);
+            }
         }
     }
 
@@ -229,21 +226,7 @@ public class CompressController {
 
 
 
-    public static String intToBinaryString(int value) {
-        // Using Integer.toBinaryString to convert int to binary string
-        String binaryString = Integer.toBinaryString(value);
 
-        // Pad with leading zeros to ensure a 32-bit representation
-        int length = binaryString.length();
-        if (length < 32) {
-            int leadingZeros = 32 - length;
-            StringBuilder paddedBinary = new StringBuilder();
-            paddedBinary.append("0".repeat(leadingZeros)).append(binaryString);
-            return paddedBinary.toString();
-        }
-
-        return binaryString;
-    }
 
 
     public static String stringToBinaryString(String input) {
